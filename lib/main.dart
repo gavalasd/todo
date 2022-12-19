@@ -43,10 +43,7 @@ class Item {
 
 class _PageState extends State<Page> {
   final List<Item> _todoList = <Item>[];
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _timeController = TextEditingController();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +107,10 @@ class _PageState extends State<Page> {
   }
 
   Future<void> _displayAddDialog(Item todo) async {
+    final TextEditingController nameController = TextEditingController();
+    final TextEditingController descriptionController = TextEditingController();
+    final TextEditingController dateController = TextEditingController();
+    final TextEditingController timeController = TextEditingController();
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -120,15 +121,15 @@ class _PageState extends State<Page> {
               content: Column(
                 children: [
                   TextField( // NAME
-                    controller: _nameController,
+                    controller: nameController,
                   ),
                   
                   TextField( // DESCRIPTION
-                    controller: _descriptionController,
+                    controller: descriptionController,
                   ),
                   
                   TextField( // DATE
-                    controller: _dateController,
+                    controller: dateController,
                     decoration: const InputDecoration(
                         icon: Icon(Icons.calendar_today),
                     ),
@@ -141,14 +142,14 @@ class _PageState extends State<Page> {
                           lastDate: DateTime(2400));
                       if (date != null) {
                         setState(() {
-                          _dateController.text = "${date.month}/${date.day}/${date.year}";
+                          dateController.text = "${date.month}/${date.day}/${date.year}";
                         });
                       }
                     },
                   ),
                   
                   TextField( // TIME
-                    controller: _timeController,
+                    controller: timeController,
                     readOnly: true,
                     onTap: () async {
                       TimeOfDay? time = await showTimePicker(
@@ -156,7 +157,7 @@ class _PageState extends State<Page> {
 
                       if (time != null) {
                         setState(() {
-                          _timeController.text =
+                          timeController.text =
                               "${time.hour}:${time.minute}";
                         });
                       }
@@ -171,10 +172,10 @@ class _PageState extends State<Page> {
                   child: const Text('Cancel'),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    _nameController.clear();
-                    _descriptionController.clear();
-                    _dateController.clear();
-                    _timeController.clear();
+                    nameController.clear();
+                    descriptionController.clear();
+                    dateController.clear();
+                    timeController.clear();
                   },
                 ),
 
@@ -183,7 +184,7 @@ class _PageState extends State<Page> {
                   onPressed: () {
                     Navigator.of(context).pop();
                     setState(() {
-                      _todoList.add(Item(_nameController.text, _descriptionController.text, _dateController.text, _timeController.text,));
+                      _todoList.add(Item(nameController.text, descriptionController.text, dateController.text, timeController.text));
                     });
                   },
                 ),
