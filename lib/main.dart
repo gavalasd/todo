@@ -44,7 +44,6 @@ class Item {
 class _PageState extends State<Page> {
   final List<Item> _todoList = <Item>[];
   
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
